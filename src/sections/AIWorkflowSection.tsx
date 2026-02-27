@@ -1,10 +1,9 @@
-import { motion } from "framer-motion";
-import { Brain, GitBranch, Wand2, Rocket } from "lucide-react";
-import { SectionHeader } from "@/components/ui/SectionHeader";
-import { aiWorkflowItems } from "@/data";
+import { Brain, GitBranch, Wand2, Rocket } from 'lucide-react';
+import { SectionHeader } from '@/components/ui/SectionHeader';
 
 // Map icon names to components — js-index-maps
-const ICONS: Record<
+// Uncomment below + aiWorkflowItems import when re-enabling the grid
+const _ICONS: Record<
   string,
   React.ComponentType<{ size?: number; className?: string }>
 > = {
@@ -13,6 +12,7 @@ const ICONS: Record<
   Wand2,
   Rocket,
 };
+void _ICONS;
 
 export function AIWorkflowSection() {
   return (

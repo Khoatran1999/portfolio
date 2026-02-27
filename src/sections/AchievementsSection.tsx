@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
-import { ShoppingCart, TrendingUp, Zap, Clock } from "lucide-react";
-import { SectionHeader } from "@/components/ui/SectionHeader";
-import { achievements } from "@/data";
+import { motion } from 'framer-motion';
+import { ShoppingCart, TrendingUp, Zap, Clock } from 'lucide-react';
+import { SectionHeader } from '@/components/ui/SectionHeader';
+import { achievements } from '@/data';
 
 // Map icon keys to components — js-index-maps
 const ICONS: Record<
@@ -51,7 +51,7 @@ export function AchievementsSection() {
                   transition={{
                     duration: 0.4,
                     delay: i * 0.1 + 0.2,
-                    type: "spring",
+                    type: 'spring',
                     stiffness: 200,
                   }}
                   className="font-display font-bold text-4xl text-slate-900 dark:text-white mb-1"

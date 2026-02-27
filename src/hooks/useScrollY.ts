@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from 'react';
 
 // Deduplicate scroll event listener — client-event-listeners
 let listeners = 0;
@@ -17,7 +17,7 @@ export function useScrollY() {
   useEffect(() => {
     callbacks.add(cb);
     if (listeners === 0) {
-      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener('scroll', onScroll, { passive: true });
     }
     listeners++;
 
@@ -25,7 +25,7 @@ export function useScrollY() {
       callbacks.delete(cb);
       listeners--;
       if (listeners === 0) {
-        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener('scroll', onScroll);
       }
     };
   }, [cb]);

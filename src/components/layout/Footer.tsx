@@ -1,5 +1,5 @@
-import { Github, Linkedin, Mail, Heart } from "lucide-react";
-import { personalInfo } from "@/data";
+import { Github, Linkedin, Mail, Heart } from 'lucide-react';
+import { personalInfo } from '@/data';
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -19,17 +19,17 @@ export function Footer() {
               {
                 href: personalInfo.github,
                 icon: <Github size={18} />,
-                label: "GitHub",
+                label: 'GitHub',
               },
               {
                 href: personalInfo.linkedin,
                 icon: <Linkedin size={18} />,
-                label: "LinkedIn",
+                label: 'LinkedIn',
               },
               {
                 href: `mailto:${personalInfo.email}`,
                 icon: <Mail size={18} />,
-                label: "Email",
+                label: 'Email',
               },
             ].map((item) => (
               <a

@@ -1,0 +1,10 @@
+node_modules
+dist
+build
+public
+.cache
+.turbo
+coverage
+.git
+.vscode
+.idea

@@ -1,42 +1,32 @@
-import { lazy, Suspense } from "react";
-import { useTheme } from "@/hooks/useTheme";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { HeroSection } from "@/sections/HeroSection";
+import { lazy, Suspense } from 'react';
+import { useTheme } from '@/hooks/useTheme';
+import { Navbar } from '@/components/layout/Navbar';
+import { Footer } from '@/components/layout/Footer';
+import { HeroSection } from '@/sections/HeroSection';
 
 // Lazy load below-fold sections — bundle-dynamic-imports
 const AboutSection = lazy(() =>
-  import("@/sections/AboutSection").then((m) => ({ default: m.AboutSection })),
+  import('@/sections/AboutSection').then((m) => ({ default: m.AboutSection }))
 );
 const SkillsSection = lazy(() =>
-  import("@/sections/SkillsSection").then((m) => ({
+  import('@/sections/SkillsSection').then((m) => ({
     default: m.SkillsSection,
-  })),
+  }))
 );
 const ExperienceSection = lazy(() =>
-  import("@/sections/ExperienceSection").then((m) => ({
+  import('@/sections/ExperienceSection').then((m) => ({
     default: m.ExperienceSection,
-  })),
+  }))
 );
 const ProjectsSection = lazy(() =>
-  import("@/sections/ProjectsSection").then((m) => ({
+  import('@/sections/ProjectsSection').then((m) => ({
     default: m.ProjectsSection,
-  })),
-);
-const AIWorkflowSection = lazy(() =>
-  import("@/sections/AIWorkflowSection").then((m) => ({
-    default: m.AIWorkflowSection,
-  })),
-);
-const AchievementsSection = lazy(() =>
-  import("@/sections/AchievementsSection").then((m) => ({
-    default: m.AchievementsSection,
-  })),
+  }))
 );
 const ContactSection = lazy(() =>
-  import("@/sections/ContactSection").then((m) => ({
+  import('@/sections/ContactSection').then((m) => ({
     default: m.ContactSection,
-  })),
+  }))
 );
 
 function SectionFallback() {

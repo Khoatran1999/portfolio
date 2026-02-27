@@ -1,20 +1,20 @@
-import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
-import { ArrowDown, Download, Github, Linkedin, Sparkles } from "lucide-react";
-import gsap from "gsap";
-import { SplitText } from "gsap/SplitText";
-import { Button } from "@/components/ui/Button";
-import { personalInfo } from "@/data";
+import { useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowDown, Download, Github, Linkedin, Sparkles } from 'lucide-react';
+import gsap from 'gsap';
+import { SplitText } from 'gsap/SplitText';
+import { Button } from '@/components/ui/Button';
+import { personalInfo } from '@/data';
 
 gsap.registerPlugin(SplitText);
 
 const TECH_STACK = [
-  "React 19",
-  "TypeScript",
-  "Tailwind CSS",
-  "Vite",
-  "BigCommerce",
-  "Framer Motion",
+  'React 19',
+  'TypeScript',
+  'Tailwind CSS',
+  'Vite',
+  'BigCommerce',
+  'Framer Motion',
 ];
 
 export function HeroSection() {
@@ -25,13 +25,13 @@ export function HeroSection() {
   // ── Name: SplitText chars fly-up
   useEffect(() => {
     if (!nameRef.current) return;
-    const split = SplitText.create(nameRef.current, { type: "chars" });
+    const split = SplitText.create(nameRef.current, { type: 'chars' });
     gsap.from(split.chars, {
       duration: 0.6,
       y: 60,
       autoAlpha: 0,
       stagger: 0.055,
-      ease: "back.out(1.7)",
+      ease: 'back.out(1.7)',
       delay: 0.45,
     });
     return () => split.revert();
@@ -42,7 +42,7 @@ export function HeroSection() {
     const container = techRowRef.current;
     if (!container) return;
     const tags = Array.from(
-      container.querySelectorAll<HTMLElement>("[data-tag]"),
+      container.querySelectorAll<HTMLElement>('[data-tag]')
     );
     const cleanups: (() => void)[] = [];
 
@@ -52,22 +52,22 @@ export function HeroSection() {
           y: -5,
           scale: 1.1,
           duration: 0.2,
-          ease: "power2.out",
-          boxShadow: "0 8px 24px rgba(37,99,235,0.25)",
+          ease: 'power2.out',
+          boxShadow: '0 8px 24px rgba(37,99,235,0.25)',
         });
       const leave = () =>
         gsap.to(tag, {
           y: 0,
           scale: 1,
           duration: 0.25,
-          ease: "power2.inOut",
-          boxShadow: "none",
+          ease: 'power2.inOut',
+          boxShadow: 'none',
         });
-      tag.addEventListener("mouseenter", enter);
-      tag.addEventListener("mouseleave", leave);
+      tag.addEventListener('mouseenter', enter);
+      tag.addEventListener('mouseleave', leave);
       cleanups.push(() => {
-        tag.removeEventListener("mouseenter", enter);
-        tag.removeEventListener("mouseleave", leave);
+        tag.removeEventListener('mouseenter', enter);
+        tag.removeEventListener('mouseleave', leave);
       });
     });
     return () => cleanups.forEach((fn) => fn());
@@ -78,20 +78,20 @@ export function HeroSection() {
     const container = ctaRef.current;
     if (!container) return;
     const btns = Array.from(
-      container.querySelectorAll<HTMLElement>("[data-btn]"),
+      container.querySelectorAll<HTMLElement>('[data-btn]')
     );
     const cleanups: (() => void)[] = [];
 
     btns.forEach((btn) => {
       const enter = () =>
-        gsap.to(btn, { scale: 1.06, duration: 0.22, ease: "power2.out" });
+        gsap.to(btn, { scale: 1.06, duration: 0.22, ease: 'power2.out' });
       const leave = () =>
-        gsap.to(btn, { scale: 1, duration: 0.28, ease: "elastic.out(1, 0.5)" });
-      btn.addEventListener("mouseenter", enter);
-      btn.addEventListener("mouseleave", leave);
+        gsap.to(btn, { scale: 1, duration: 0.28, ease: 'elastic.out(1, 0.5)' });
+      btn.addEventListener('mouseenter', enter);
+      btn.addEventListener('mouseleave', leave);
       cleanups.push(() => {
-        btn.removeEventListener("mouseenter", enter);
-        btn.removeEventListener("mouseleave", leave);
+        btn.removeEventListener('mouseenter', enter);
+        btn.removeEventListener('mouseleave', leave);
       });
     });
     return () => cleanups.forEach((fn) => fn());
@@ -133,7 +133,7 @@ export function HeroSection() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-slate-900 dark:text-white mb-6 leading-tight"
         >
-          Hi, I'm{" "}
+          Hi, I'm{' '}
           <span className="text-blue-600 dark:text-blue-400" ref={nameRef}>
             {personalInfo.name}
           </span>
@@ -154,15 +154,15 @@ export function HeroSection() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed"
         >
-          {personalInfo.tagline} Specializing in{" "}
+          {personalInfo.tagline} Specializing in{' '}
           <strong className="text-slate-700 dark:text-slate-300">
             React.js architecture
           </strong>
-          ,{" "}
+          ,{' '}
           <strong className="text-slate-700 dark:text-slate-300">
             BigCommerce platforms
           </strong>
-          , and{" "}
+          , and{' '}
           <strong className="text-slate-700 dark:text-slate-300">
             AI-assisted workflows
           </strong>
@@ -182,8 +182,8 @@ export function HeroSection() {
               size="lg"
               onClick={() =>
                 document
-                  .getElementById("projects")
-                  ?.scrollIntoView({ behavior: "smooth" })
+                  .getElementById('projects')
+                  ?.scrollIntoView({ behavior: 'smooth' })
               }
             >
               <Sparkles size={18} />
@@ -195,7 +195,7 @@ export function HeroSection() {
               variant="outline"
               size="lg"
               onClick={() =>
-                window.open("/resume-tran-dang-khoa.pdf", "_blank")
+                window.open('/resume-tran-dang-khoa.pdf', '_blank')
               }
             >
               <Download size={18} />
@@ -261,7 +261,7 @@ export function HeroSection() {
       >
         <motion.div
           animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
           className="text-slate-400 dark:text-slate-600"
         >
           <ArrowDown size={22} />

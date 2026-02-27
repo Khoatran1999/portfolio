@@ -1,23 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-const STORAGE_KEY = "portfolio-theme";
+const STORAGE_KEY = 'portfolio-theme';
 
 export function useTheme() {
   // Lazy init from localStorage to avoid flicker (rendering-hydration-no-flicker)
   const [isDark, setIsDark] = useState<boolean>(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored !== null) return stored === "dark";
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (stored !== null) return stored === 'dark';
+    return true;
   });
 
   useEffect(() => {
     const root = document.documentElement;
     if (isDark) {
-      root.classList.add("dark");
+      root.classList.add('dark');
     } else {
-      root.classList.remove("dark");
+      root.classList.remove('dark');
     }
-    localStorage.setItem(STORAGE_KEY, isDark ? "dark" : "light");
+    localStorage.setItem(STORAGE_KEY, isDark ? 'dark' : 'light');
   }, [isDark]);
 
   const toggle = () => setIsDark((prev) => !prev);

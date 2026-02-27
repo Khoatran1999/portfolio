@@ -1,8 +1,8 @@
-import { motion } from "framer-motion";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useState } from "react";
+import { motion } from 'framer-motion';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useState } from 'react';
 import {
   Send,
   Mail,
@@ -11,25 +11,25 @@ import {
   AlertCircle,
   Loader2,
   Phone,
-} from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { SectionHeader } from "@/components/ui/SectionHeader";
-import { personalInfo } from "@/data";
-import { cn } from "@/lib/utils";
+} from 'lucide-react';
+import { Button } from '@/components/ui/Button';
+import { SectionHeader } from '@/components/ui/SectionHeader';
+import { personalInfo } from '@/data';
+import { cn } from '@/lib/utils';
 
 const schema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  subject: z.string().min(5, "Subject must be at least 5 characters"),
-  message: z.string().min(20, "Message must be at least 20 characters"),
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  email: z.string().email('Please enter a valid email address'),
+  subject: z.string().min(5, 'Subject must be at least 5 characters'),
+  message: z.string().min(20, 'Message must be at least 20 characters'),
 });
 
 type FormData = z.infer<typeof schema>;
 
-type FormStatus = "idle" | "loading" | "success" | "error";
+type FormStatus = 'idle' | 'loading' | 'success' | 'error';
 
 export function ContactSection() {
-  const [status, setStatus] = useState<FormStatus>("idle");
+  const [status, setStatus] = useState<FormStatus>('idle');
 
   const {
     register,
@@ -41,19 +41,19 @@ export function ContactSection() {
   });
 
   const onSubmit = async (data: FormData) => {
-    setStatus("loading");
+    setStatus('loading');
     try {
       // POST to our own API endpoint / Resend API
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      if (!res.ok) throw new Error("Network error");
-      setStatus("success");
+      if (!res.ok) throw new Error('Network error');
+      setStatus('success');
       reset();
     } catch {
-      setStatus("error");
+      setStatus('error');
     }
   };
 
@@ -97,7 +97,7 @@ export function ContactSection() {
                       className="text-blue-600 dark:text-blue-400"
                     />
                   ),
-                  label: "Email",
+                  label: 'Email',
                   value: personalInfo.email,
                   href: `mailto:${personalInfo.email}`,
                 },
@@ -108,7 +108,7 @@ export function ContactSection() {
                       className="text-blue-600 dark:text-blue-400"
                     />
                   ),
-                  label: "Phone",
+                  label: 'Phone',
                   value: personalInfo.phone,
                   href: `tel:${personalInfo.phone}`,
                 },
@@ -119,7 +119,7 @@ export function ContactSection() {
                       className="text-blue-600 dark:text-blue-400"
                     />
                   ),
-                  label: "Location",
+                  label: 'Location',
                   value: personalInfo.location,
                   href: undefined,
                 },
@@ -158,7 +158,7 @@ export function ContactSection() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="lg:col-span-3"
           >
-            {status === "success" ? (
+            {status === 'success' ? (
               <div className="card flex flex-col items-center justify-center py-16 text-center gap-4">
                 <CheckCircle size={48} className="text-green-500" />
                 <h3 className="font-display font-bold text-xl text-slate-900 dark:text-white">
@@ -167,7 +167,7 @@ export function ContactSection() {
                 <p className="text-slate-500 dark:text-slate-400 text-sm">
                   Thanks for reaching out. I'll get back to you within 24 hours.
                 </p>
-                <Button variant="outline" onClick={() => setStatus("idle")}>
+                <Button variant="outline" onClick={() => setStatus('idle')}>
                   Send another message
                 </Button>
               </div>
@@ -180,14 +180,14 @@ export function ContactSection() {
                 <div className="grid sm:grid-cols-2 gap-4">
                   <Field label="Your Name" error={errors.name?.message}>
                     <input
-                      {...register("name")}
+                      {...register('name')}
                       placeholder="Tran Van A"
                       className={inputClass(!!errors.name)}
                     />
                   </Field>
                   <Field label="Email Address" error={errors.email?.message}>
                     <input
-                      {...register("email")}
+                      {...register('email')}
                       type="email"
                       placeholder="you@example.com"
                       className={inputClass(!!errors.email)}
@@ -197,7 +197,7 @@ export function ContactSection() {
 
                 <Field label="Subject" error={errors.subject?.message}>
                   <input
-                    {...register("subject")}
+                    {...register('subject')}
                     placeholder="Frontend Developer Opportunity"
                     className={inputClass(!!errors.subject)}
                   />
@@ -205,14 +205,14 @@ export function ContactSection() {
 
                 <Field label="Message" error={errors.message?.message}>
                   <textarea
-                    {...register("message")}
+                    {...register('message')}
                     rows={5}
                     placeholder="Tell me about your project or opportunity..."
-                    className={cn(inputClass(!!errors.message), "resize-none")}
+                    className={cn(inputClass(!!errors.message), 'resize-none')}
                   />
                 </Field>
 
-                {status === "error" && (
+                {status === 'error' && (
                   <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 text-sm border border-red-200/60 dark:border-red-800/60">
                     <AlertCircle size={16} />
                     Something went wrong. Please try again or email directly.
@@ -223,9 +223,9 @@ export function ContactSection() {
                   type="submit"
                   size="lg"
                   className="w-full"
-                  disabled={status === "loading"}
+                  disabled={status === 'loading'}
                 >
-                  {status === "loading" ? (
+                  {status === 'loading' ? (
                     <>
                       <Loader2 size={18} className="animate-spin" /> Sending...
                     </>
@@ -246,10 +246,10 @@ export function ContactSection() {
 
 function inputClass(hasError: boolean) {
   return cn(
-    "w-full px-4 py-2.5 rounded-xl text-sm border bg-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600",
+    'w-full px-4 py-2.5 rounded-xl text-sm border bg-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600',
     hasError
-      ? "border-red-300 dark:border-red-700 bg-red-50/30 dark:bg-red-950/10"
-      : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600",
+      ? 'border-red-300 dark:border-red-700 bg-red-50/30 dark:bg-red-950/10'
+      : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
   );
 }
 

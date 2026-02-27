@@ -20,7 +20,7 @@ export interface Project {
   tech: string[];
   link?: string;
   github?: string;
-  type: "featured" | "regular";
+  type: 'featured' | 'regular';
   category: string;
   metrics?: string;
 }

@@ -1,29 +1,29 @@
-import { motion } from "framer-motion";
-import { MapPin, Briefcase, Code2, Zap } from "lucide-react";
-import { SectionHeader } from "@/components/ui/SectionHeader";
-import { personalInfo } from "@/data";
+import { motion } from 'framer-motion';
+import { MapPin, Briefcase, Code2, Zap } from 'lucide-react';
+import { SectionHeader } from '@/components/ui/SectionHeader';
+import { personalInfo } from '@/data';
 
 // Static highlights hoisted outside component — rendering-hoist-jsx
 const highlights = [
   {
     icon: <Code2 size={20} className="text-blue-600 dark:text-blue-400" />,
-    title: "3+ Years",
-    desc: "Building production React applications",
+    title: '3+ Years',
+    desc: 'Building production React applications',
   },
   {
     icon: <Briefcase size={20} className="text-blue-600 dark:text-blue-400" />,
-    title: "100+ Projects",
-    desc: "BigCommerce storefronts delivered",
+    title: '100+ Projects',
+    desc: 'BigCommerce storefronts delivered',
   },
   {
     icon: <Zap size={20} className="text-blue-600 dark:text-blue-400" />,
-    title: "AI-First",
-    desc: "Claude AI + GitHub Copilot workflow",
+    title: 'AI-First',
+    desc: 'Claude AI + GitHub Copilot workflow',
   },
   {
     icon: <MapPin size={20} className="text-blue-600 dark:text-blue-400" />,
-    title: "Ho Chi Minh City",
-    desc: "Open to remote worldwide",
+    title: 'Ho Chi Minh City',
+    desc: 'Open to remote worldwide',
   },
 ];
 

@@ -1,16 +1,16 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { Sun, Moon, Menu, X } from "lucide-react";
-import { useState } from "react";
-import { useScrollY } from "@/hooks/useScrollY";
-import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from 'framer-motion';
+import { Sun, Moon, Menu, X } from 'lucide-react';
+import { useState } from 'react';
+import { useScrollY } from '@/hooks/useScrollY';
+import { cn } from '@/lib/utils';
 
 // Static nav links hoisted outside component — rendering-hoist-jsx
 const NAV_LINKS = [
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
+  { label: 'About', href: '#about' },
+  { label: 'Skills', href: '#skills' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'Contact', href: '#contact' },
 ];
 
 interface NavbarProps {
@@ -27,8 +27,8 @@ export function Navbar({ isDark, onToggleTheme }: NavbarProps) {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled ? "glass shadow-sm shadow-black/5" : "bg-transparent",
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+        scrolled ? 'glass shadow-sm shadow-black/5' : 'bg-transparent'
       )}
     >
       <nav className="container-max flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">

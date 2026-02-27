@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { useGsapSplitReveal } from "@/hooks/useGsapSplitReveal";
+import { motion } from 'framer-motion';
+import { useGsapSplitReveal } from '@/hooks/useGsapSplitReveal';
 
 interface SectionHeaderProps {
   eyebrow?: string;
@@ -18,7 +18,7 @@ export function SectionHeader({
   const titleRef = useGsapSplitReveal<HTMLHeadingElement>();
 
   return (
-    <div className={`mb-16 ${centered ? "text-center" : ""}`}>
+    <div className={`mb-16 ${centered ? 'text-center' : ''}`}>
       {eyebrow && (
         <motion.span
           initial={{ opacity: 0, y: 10 }}

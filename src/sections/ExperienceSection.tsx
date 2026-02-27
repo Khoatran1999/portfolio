@@ -1,8 +1,8 @@
-import { motion } from "framer-motion";
-import { Briefcase, CheckCircle } from "lucide-react";
-import { SectionHeader } from "@/components/ui/SectionHeader";
-import { Badge } from "@/components/ui/Badge";
-import { experiences } from "@/data";
+import { motion } from 'framer-motion';
+import { Briefcase, CheckCircle } from 'lucide-react';
+import { SectionHeader } from '@/components/ui/SectionHeader';
+import { Badge } from '@/components/ui/Badge';
+import { experiences } from '@/data';
 
 export function ExperienceSection() {
   return (
@@ -35,7 +35,7 @@ export function ExperienceSection() {
                 <div className="hidden sm:flex flex-shrink-0 w-12 justify-center">
                   <div
                     className={`mt-1 w-3 h-3 rounded-full border-2 border-blue-600 z-10 ${
-                      exp.current ? "bg-blue-600" : "bg-white dark:bg-gray-950"
+                      exp.current ? 'bg-blue-600' : 'bg-white dark:bg-gray-950'
                     }`}
                   />
                 </div>

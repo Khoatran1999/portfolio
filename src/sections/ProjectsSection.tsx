@@ -1,25 +1,25 @@
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   ChevronLeft,
   ChevronRight,
   ExternalLink,
   Github,
   ArrowUpRight,
-} from "lucide-react";
-import { SectionHeader } from "@/components/ui/SectionHeader";
-import { Badge } from "@/components/ui/Badge";
-import { projects } from "@/data";
+} from 'lucide-react';
+import { SectionHeader } from '@/components/ui/SectionHeader';
+import { Badge } from '@/components/ui/Badge';
+import { projects } from '@/data';
 
 function ProjectCard({ project }: { project: (typeof projects)[number] }) {
-  const isFeatured = project.type === "featured";
+  const isFeatured = project.type === 'featured';
 
   return (
     <div
       className={`card card-hover group flex flex-col ${
         isFeatured
-          ? "border-blue-200/80 dark:border-blue-800/60 ring-1 ring-blue-500/10"
-          : ""
+          ? 'border-blue-200/80 dark:border-blue-800/60 ring-1 ring-blue-500/10'
+          : ''
       }`}
     >
       {isFeatured && (
@@ -178,7 +178,7 @@ export function ProjectsSection() {
               aria-label={`Project ${i + 1}`}
               onClick={() => goTo(i, i > index ? 1 : -1)}
               className={`w-2 h-2 rounded-full transition-colors ${
-                i === index ? "bg-blue-600" : "bg-slate-300 dark:bg-slate-700"
+                i === index ? 'bg-blue-600' : 'bg-slate-300 dark:bg-slate-700'
               }`}
             />
           ))}
