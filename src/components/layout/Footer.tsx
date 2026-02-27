@@ -17,6 +17,14 @@ const categoryPill: Record<string, string> = {
 
 const fallbackPill = categoryPill['Core'];
 
+/* inline keyframes — guarantees the animation works regardless of Tailwind purge */
+const marqueeStyle: React.CSSProperties = {
+  display: 'flex',
+  gap: '0.75rem',
+  width: 'max-content',
+  animation: 'footer-marquee 40s linear infinite',
+};
+
 export function Footer() {
   const year = new Date().getFullYear();
 
@@ -26,8 +34,30 @@ export function Footer() {
   return (
     <footer className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-gray-950">
       {/* ── Skills marquee ────────────────────────────────────────────── */}
-      <div className="overflow-hidden py-6 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-        <div className="flex w-max gap-3 animate-marquee hover:[animation-play-state:paused]">
+      <style>{`
+        @keyframes footer-marquee {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+      `}</style>
+      <div
+        className="overflow-hidden py-6"
+        style={{
+          maskImage:
+            'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
+          WebkitMaskImage:
+            'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
+        }}
+      >
+        <div
+          style={marqueeStyle}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.animationPlayState = 'paused')
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.animationPlayState = 'running')
+          }
+        >
           {loopSkills.map((skill, i) => (
             <span
               key={`${skill.name}-${i}`}
