@@ -1,21 +1,69 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Draggable } from 'gsap/Draggable';
 import {
-  ChevronLeft,
-  ChevronRight,
   ExternalLink,
   ArrowUpRight,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { projects } from '@/data';
 
-// Triple for seamless infinite loop
-const ITEMS = [...projects, ...projects, ...projects];
-const TOTAL = projects.length;
-const GAP = 24; // px — matches gap-6
-const VISIBLE = 3;
-const AUTOPLAY_INTERVAL = 3000;
+gsap.registerPlugin(ScrollTrigger, Draggable);
 
+// ─── seamless loop builder (ported from task.md) ──────────────────────────────
+function buildSeamlessLoop(
+  items: Element[],
+  spacing: number,
+  animateFunc: (el: Element) => gsap.core.Timeline
+) {
+  const overlap = Math.ceil(1 / spacing);
+  const startTime = items.length * spacing + 0.5;
+  const loopTime = (items.length + overlap) * spacing + 1;
+
+  const rawSequence = gsap.timeline({ paused: true });
+  const seamlessLoop = gsap.timeline({
+    paused: true,
+    repeat: -1,
+    onRepeat(this: gsap.core.Timeline) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const t = this as any;
+      if (t._time === t._dur) t._tTime += t._dur - 0.01;
+    },
+  });
+
+  const total = items.length + overlap * 2;
+  for (let i = 0; i < total; i++) {
+    const index = i % items.length;
+    const time = i * spacing;
+    rawSequence.add(animateFunc(items[index]), time);
+    if (i <= items.length) seamlessLoop.addLabel('label' + i, time);
+  }
+
+  rawSequence.time(startTime);
+  seamlessLoop
+    .to(rawSequence, {
+      time: loopTime,
+      duration: loopTime - startTime,
+      ease: 'none',
+    })
+    .fromTo(
+      rawSequence,
+      { time: overlap * spacing + 1 },
+      {
+        time: startTime,
+        duration: startTime - (overlap * spacing + 1),
+        immediateRender: false,
+        ease: 'none',
+      }
+    );
+
+  return seamlessLoop;
+}
+
+// ─── ProjectCard ──────────────────────────────────────────────────────────────
 function ProjectCard({ project }: { project: (typeof projects)[number] }) {
   const liveUrl = project.url ?? project.link;
 
@@ -24,11 +72,11 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
       href={liveUrl ?? '#'}
       target={liveUrl ? '_blank' : undefined}
       rel="noopener noreferrer"
-      className="group flex-shrink-0 block cursor-pointer"
+      className="group block w-full"
       onClick={(e) => !liveUrl && e.preventDefault()}
     >
       {/* 1:1 image */}
-      <div className="relative aspect-square overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-800 shadow-sm">
+      <div className="relative aspect-square overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-800 shadow-md">
         {project.image ? (
           <img
             src={project.image}
@@ -53,100 +101,160 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
         </div>
       </div>
 
-      {/* Title only */}
-      <h3 className="mt-3 text-sm font-semibold text-slate-800 dark:text-slate-200 leading-snug line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+      {/* Title */}
+      <h3 className="mt-3 text-sm font-semibold text-slate-800 dark:text-slate-200 leading-snug line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors text-center">
         {project.title}
       </h3>
     </a>
   );
 }
 
+// ─── ProjectsSection ──────────────────────────────────────────────────────────
+const SPACING = 0.15; // stagger between each card's animation start
+
 export function ProjectsSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const indexRef = useRef(TOTAL); // start at middle copy
-  const tweenRef = useRef<gsap.core.Tween | null>(null);
-  const autoRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const galleryRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLUListElement>(null);
+  const dragProxyRef = useRef<HTMLDivElement>(null);
 
-  // Compute x position for a given index
-  const getX = useCallback((idx: number) => {
-    if (!containerRef.current) return 0;
-    const containerW = containerRef.current.offsetWidth;
-    const cardW = (containerW - GAP * (VISIBLE - 1)) / VISIBLE;
-    return -(idx * (cardW + GAP));
-  }, []);
+  useEffect(() => {
+    const gallery = galleryRef.current;
+    const cardsList = cardsRef.current;
+    const dragProxy = dragProxyRef.current;
+    if (!gallery || !cardsList || !dragProxy) return;
 
-  // Animate to index, then reset silently if at ends
-  const slideTo = useCallback(
-    (idx: number, instant = false) => {
-      if (!trackRef.current) return;
-      tweenRef.current?.kill();
-      const x = getX(idx);
-      if (instant) {
-        gsap.set(trackRef.current, { x });
-      } else {
-        tweenRef.current = gsap.to(trackRef.current, {
-          x,
-          duration: 0.55,
-          ease: 'power2.inOut',
-          onComplete: () => {
-            // Silent jump after reaching far ends
-            if (idx >= TOTAL * 2) {
-              indexRef.current = TOTAL;
-              gsap.set(trackRef.current, { x: getX(TOTAL) });
-            } else if (idx < TOTAL) {
-              indexRef.current = TOTAL + (idx % TOTAL === 0 ? 0 : idx % TOTAL);
-              // Jump to equivalent position in middle copy
-              const newIdx = TOTAL + (((idx % TOTAL) + TOTAL) % TOTAL);
-              indexRef.current = newIdx;
-              gsap.set(trackRef.current, { x: getX(newIdx) });
-            }
-          },
-        });
+    const cards = gsap.utils.toArray<Element>(cardsList.querySelectorAll('li'));
+
+    // Initial state — all cards off-screen right, invisible
+    gsap.set(cards, { xPercent: 400, opacity: 0, scale: 0 });
+
+    const animateFunc = (el: Element): gsap.core.Timeline => {
+      const tl = gsap.timeline();
+      tl.fromTo(
+        el,
+        { scale: 0, opacity: 0 },
+        {
+          scale: 1,
+          opacity: 1,
+          zIndex: 100,
+          duration: 0.5,
+          yoyo: true,
+          repeat: 1,
+          ease: 'power1.in',
+          immediateRender: false,
+        }
+      ).fromTo(
+        el,
+        { xPercent: 400 },
+        { xPercent: -400, duration: 1, ease: 'none', immediateRender: false },
+        0
+      );
+      return tl;
+    };
+
+    const seamlessLoop = buildSeamlessLoop(cards, SPACING, animateFunc);
+    const snapTime = gsap.utils.snap(SPACING);
+    const playhead = { offset: 0 };
+
+    const scrub = gsap.to(playhead, {
+      offset: 0,
+      onUpdate() {
+        seamlessLoop.time(
+          gsap.utils.wrap(0, seamlessLoop.duration())(playhead.offset)
+        );
+      },
+      duration: 0.5,
+      ease: 'power3',
+      paused: true,
+    });
+
+    let iteration = 0;
+
+    const trigger = ScrollTrigger.create({
+      start: 0,
+      onUpdate(self) {
+        const scroll = self.scroll();
+        if (scroll > self.end - 1) {
+          wrap(1, 2);
+        } else if (scroll < 1 && self.direction < 0) {
+          wrap(-1, self.end - 2);
+        } else {
+          scrub.vars.offset =
+            (iteration + self.progress) * seamlessLoop.duration();
+          scrub.invalidate().restart();
+        }
+      },
+      end: '+=3000',
+      pin: gallery,
+    });
+
+    const progressToScroll = (progress: number) =>
+      gsap.utils.clamp(
+        1,
+        trigger.end - 1,
+        gsap.utils.wrap(0, 1, progress) * trigger.end
+      );
+
+    const wrap = (iterationDelta: number, scrollTo: number) => {
+      iteration += iterationDelta;
+      trigger.scroll(scrollTo);
+      trigger.update();
+    };
+
+    const scrollToOffset = (offset: number) => {
+      const snappedTime = snapTime(offset);
+      const progress =
+        (snappedTime - seamlessLoop.duration() * iteration) /
+        seamlessLoop.duration();
+      const scroll = progressToScroll(progress);
+      if (progress >= 1 || progress < 0) {
+        return wrap(Math.floor(progress), scroll);
       }
-    },
-    [getX]
-  );
-
-  const next = useCallback(() => {
-    const idx = ++indexRef.current;
-    slideTo(idx);
-  }, [slideTo]);
-
-  const prev = useCallback(() => {
-    const idx = --indexRef.current;
-    slideTo(idx);
-  }, [slideTo]);
-
-  // Init position
-  useEffect(() => {
-    gsap.set(trackRef.current, { x: getX(TOTAL) });
-  }, [getX]);
-
-  // Reposition on window resize
-  useEffect(() => {
-    const onResize = () => {
-      gsap.set(trackRef.current, { x: getX(indexRef.current) });
+      trigger.scroll(scroll);
     };
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, [getX]);
 
-  // Autoplay
-  useEffect(() => {
-    autoRef.current = setInterval(next, AUTOPLAY_INTERVAL);
+    const onScrollEnd = () => scrollToOffset(scrub.vars.offset as number);
+    ScrollTrigger.addEventListener('scrollEnd', onScrollEnd);
+
+    // Prev / Next buttons
+    const nextBtn = gallery.querySelector<HTMLButtonElement>('.btn-next');
+    const prevBtn = gallery.querySelector<HTMLButtonElement>('.btn-prev');
+    const onNext = () =>
+      scrollToOffset((scrub.vars.offset as number) + SPACING);
+    const onPrev = () =>
+      scrollToOffset((scrub.vars.offset as number) - SPACING);
+    nextBtn?.addEventListener('click', onNext);
+    prevBtn?.addEventListener('click', onPrev);
+
+    // Draggable — mouse & touch
+    const draggable = Draggable.create(dragProxy, {
+      type: 'x',
+      trigger: cardsList,
+      onPress(this: Draggable) {
+        (this as Draggable & { startOffset: number }).startOffset = scrub.vars
+          .offset as number;
+      },
+      onDrag(this: Draggable) {
+        const self = this as Draggable & { startOffset: number };
+        scrub.vars.offset = self.startOffset + (self.startX - self.x) * 0.001;
+        scrub.invalidate().restart();
+      },
+      onDragEnd() {
+        scrollToOffset(scrub.vars.offset as number);
+      },
+    });
+
     return () => {
-      if (autoRef.current) clearInterval(autoRef.current);
+      scrub.kill();
+      trigger.kill();
+      draggable[0]?.kill();
+      seamlessLoop.kill();
+      nextBtn?.removeEventListener('click', onNext);
+      prevBtn?.removeEventListener('click', onPrev);
+      ScrollTrigger.removeEventListener('scrollEnd', onScrollEnd);
     };
-  }, [next]);
-
-  const pauseAutoplay = () => {
-    if (autoRef.current) clearInterval(autoRef.current);
-  };
-  const resumeAutoplay = () => {
-    if (autoRef.current) clearInterval(autoRef.current);
-    autoRef.current = setInterval(next, AUTOPLAY_INTERVAL);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <section id="projects" className="section-padding">
@@ -157,46 +265,49 @@ export function ProjectsSection() {
           subtitle="Real-world solutions spanning e-commerce, tooling, and AI integrations."
         />
 
+        {/* Gallery — pinned by ScrollTrigger */}
         <div
-          className="relative"
-          onMouseEnter={pauseAutoplay}
-          onMouseLeave={resumeAutoplay}
+          ref={galleryRef}
+          className="relative flex flex-col items-center overflow-hidden"
+          style={{ height: 400 }}
         >
-          {/* Slider track */}
-          <div ref={containerRef} className="overflow-hidden">
-            <div
-              ref={trackRef}
-              className="flex will-change-transform"
-              style={{ gap: GAP }}
+          {/* Cards — all stacked at center, moved via xPercent */}
+          <ul
+            ref={cardsRef}
+            className="relative w-full h-full list-none p-0 m-0"
+          >
+            {projects.map((project, i) => (
+              <li
+                key={i}
+                className="absolute top-0 left-1/2 w-[240px] -translate-x-1/2"
+                style={{ willChange: 'transform, opacity' }}
+              >
+                <ProjectCard project={project} />
+              </li>
+            ))}
+          </ul>
+
+          {/* Invisible drag proxy */}
+          <div
+            ref={dragProxyRef}
+            className="absolute inset-0 z-0 pointer-events-none"
+          />
+
+          {/* Prev / Next controls */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex items-center gap-4 z-20">
+            <button
+              className="btn-prev p-2 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              aria-label="Previous"
             >
-              {ITEMS.map((project, i) => {
-                const cardWidth = `calc((100% - ${GAP * (VISIBLE - 1)}px) / ${VISIBLE})`;
-                return (
-                  <div key={i} style={{ width: cardWidth, flexShrink: 0 }}>
-                    <ProjectCard project={project} />
-                  </div>
-                );
-              })}
-            </div>
+              <ChevronLeft size={18} />
+            </button>
+            <button
+              className="btn-next p-2 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              aria-label="Next"
+            >
+              <ChevronRight size={18} />
+            </button>
           </div>
-
-          {/* Prev */}
-          <button
-            onClick={prev}
-            aria-label="Previous"
-            className="absolute -left-5 top-1/3 -translate-y-1/2 p-2 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors z-10"
-          >
-            <ChevronLeft size={18} />
-          </button>
-
-          {/* Next */}
-          <button
-            onClick={next}
-            aria-label="Next"
-            className="absolute -right-5 top-1/3 -translate-y-1/2 p-2 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors z-10"
-          >
-            <ChevronRight size={18} />
-          </button>
         </div>
       </div>
     </section>
