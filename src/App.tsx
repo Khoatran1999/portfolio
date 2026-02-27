@@ -3,8 +3,6 @@ import { useTheme } from '@/hooks/useTheme';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { HeroSection } from '@/sections/HeroSection';
-import { AchievementsSection } from '@/sections/AchievementsSection';
-import { AIWorkflowSection } from '@/sections/AIWorkflowSection';
 
 // Lazy load below-fold sections — bundle-dynamic-imports
 const AboutSection = lazy(() =>
@@ -60,8 +58,6 @@ export default function App() {
         <Suspense fallback={<SectionFallback />}>
           <ProjectsSection />
         </Suspense>
-        <AIWorkflowSection />
-        <AchievementsSection />
         <Suspense fallback={<SectionFallback />}>
           <ContactSection />
         </Suspense>

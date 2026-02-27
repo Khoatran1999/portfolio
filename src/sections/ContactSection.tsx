@@ -3,15 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useState } from 'react';
-import {
-  Send,
-  Mail,
-  MapPin,
-  CheckCircle,
-  AlertCircle,
-  Loader2,
-  Phone,
-} from 'lucide-react';
+import { Send, Mail, MapPin, CheckCircle, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { personalInfo } from '@/data';
@@ -26,7 +18,7 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-type FormStatus = 'idle' | 'loading' | 'success' | 'error';
+type FormStatus = 'idle' | 'sent';
 
 export function ContactSection() {
   const [status, setStatus] = useState<FormStatus>('idle');
@@ -40,21 +32,18 @@ export function ContactSection() {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = async (data: FormData) => {
-    setStatus('loading');
-    try {
-      // POST to our own API endpoint / Resend API
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error('Network error');
-      setStatus('success');
-      reset();
-    } catch {
-      setStatus('error');
-    }
+  const onSubmit = (data: FormData) => {
+    const body = [
+      `Name: ${data.name}`,
+      `Email: ${data.email}`,
+      '',
+      data.message,
+    ].join('\n');
+
+    const mailto = `mailto:${personalInfo.email}?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(body)}`;
+    window.open(mailto, '_blank');
+    setStatus('sent');
+    reset();
   };
 
   return (
@@ -158,14 +147,15 @@ export function ContactSection() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="lg:col-span-3"
           >
-            {status === 'success' ? (
+            {status === 'sent' ? (
               <div className="card flex flex-col items-center justify-center py-16 text-center gap-4">
                 <CheckCircle size={48} className="text-green-500" />
                 <h3 className="font-display font-bold text-xl text-slate-900 dark:text-white">
-                  Message Sent!
+                  Email Client Opened!
                 </h3>
                 <p className="text-slate-500 dark:text-slate-400 text-sm">
-                  Thanks for reaching out. I'll get back to you within 24 hours.
+                  Your message has been pre-filled in Gmail. Just hit Send to
+                  reach me — I'll reply within 24 hours.
                 </p>
                 <Button variant="outline" onClick={() => setStatus('idle')}>
                   Send another message
@@ -212,28 +202,8 @@ export function ContactSection() {
                   />
                 </Field>
 
-                {status === 'error' && (
-                  <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 text-sm border border-red-200/60 dark:border-red-800/60">
-                    <AlertCircle size={16} />
-                    Something went wrong. Please try again or email directly.
-                  </div>
-                )}
-
-                <Button
-                  type="submit"
-                  size="lg"
-                  className="w-full"
-                  disabled={status === 'loading'}
-                >
-                  {status === 'loading' ? (
-                    <>
-                      <Loader2 size={18} className="animate-spin" /> Sending...
-                    </>
-                  ) : (
-                    <>
-                      <Send size={18} /> Send Message
-                    </>
-                  )}
+                <Button type="submit" size="lg" className="w-full">
+                  <Send size={18} /> Open in Gmail
                 </Button>
               </form>
             )}
