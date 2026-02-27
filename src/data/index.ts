@@ -152,7 +152,6 @@ export const projects: Project[] = [
     description:
       'Production-ready component library with 40+ components built with React, TypeScript, and Storybook. Supports light/dark mode, full accessibility, and tree-shaking.',
     tech: ['React', 'TypeScript', 'Storybook', 'Tailwind CSS', 'Framer Motion'],
-    github: 'https://github.com/trandangkhoa',
     type: 'featured',
     category: 'Open Source',
     metrics: '40+ components · Zero-dependency core',
@@ -189,14 +188,6 @@ export const projects: Project[] = [
     category: 'DevOps',
     url: 'https://kitchenary-cooking-demo.mybigcommerce.com/',
     image: 'src/image/project5.png',
-  },
-  {
-    title: 'Performance Audit Toolkit',
-    description:
-      'Internal CLI tool for running bulk Lighthouse audits, Core Web Vitals tracking, and automated performance regression detection across client storefronts.',
-    tech: ['Node.js', 'TypeScript', 'Puppeteer', 'Lighthouse'],
-    type: 'regular',
-    category: 'Tooling',
   },
 ];
 
