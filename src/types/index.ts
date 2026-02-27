@@ -19,6 +19,8 @@ export interface Project {
   description: string;
   tech: string[];
   link?: string;
+  url?: string;
+  image?: string;
   github?: string;
   type: 'featured' | 'regular';
   category: string;

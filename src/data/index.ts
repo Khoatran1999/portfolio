@@ -144,6 +144,8 @@ export const projects: Project[] = [
     type: 'featured',
     category: 'E-commerce',
     metrics: '18% conversion uplift · $2M+ annual GMV',
+    url: 'https://dinosaur-man-demo.mybigcommerce.com/',
+    image: 'src/image/project1.png',
   },
   {
     title: 'React Design System',
@@ -154,6 +156,8 @@ export const projects: Project[] = [
     type: 'featured',
     category: 'Open Source',
     metrics: '40+ components · Zero-dependency core',
+    url: 'https://dinosaur-kid-demo.mybigcommerce.com/',
+    image: 'src/image/project2.png',
   },
   {
     title: 'AI-Powered Product Search',
@@ -163,6 +167,8 @@ export const projects: Project[] = [
     type: 'featured',
     category: 'AI / Search',
     metrics: '3x faster discovery · 22% higher AOV',
+    url: 'https://mooncat-petstore-demo.mybigcommerce.com/',
+    image: 'src/image/project3.png',
   },
   {
     title: 'Headless Commerce Dashboard',
@@ -171,6 +177,8 @@ export const projects: Project[] = [
     tech: ['React', 'TypeScript', 'GraphQL', 'Recharts', 'BigCommerce API'],
     type: 'regular',
     category: 'Dashboard',
+    url: 'https://dinosaur-woman-demo.mybigcommerce.com/',
+    image: 'src/image/project4.png',
   },
   {
     title: 'CI/CD Deployment Pipeline',
@@ -179,6 +187,8 @@ export const projects: Project[] = [
     tech: ['GitHub Actions', 'BigCommerce CLI', 'Node.js', 'Shell'],
     type: 'regular',
     category: 'DevOps',
+    url: 'https://kitchenary-cooking-demo.mybigcommerce.com/',
+    image: 'src/image/project5.png',
   },
   {
     title: 'Performance Audit Toolkit',
