@@ -110,7 +110,8 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
 
 // ─── ProjectsSection ──────────────────────────────────────────────────────────
 const SPACING = 0.15;
-const AUTOPLAY_SPEED = 0.012; // offset units per tick (~16ms)
+// Speed per 60fps-equivalent frame (use deltaRatio for frame-rate independence)
+const AUTOPLAY_SPEED = 0.003;
 
 export function ProjectsSection() {
   const galleryRef = useRef<HTMLDivElement>(null);
@@ -155,7 +156,10 @@ export function ProjectsSection() {
     const wrapTime = gsap.utils.wrap(0, seamlessLoop.duration());
     const playhead = { offset: 0 };
 
-    // Smooth scrub tween — reused for every nudge
+    // Single source of truth: targetOffset is where we WANT to be
+    let targetOffset = 0;
+
+    // Scrub tween smoothly animates playhead.offset → targetOffset
     const scrub = gsap.to(playhead, {
       offset: 0,
       onUpdate() {
@@ -166,39 +170,38 @@ export function ProjectsSection() {
       paused: true,
     });
 
-    // Nudge playhead by delta and let scrub catch up smoothly
-    const nudge = (delta: number) => {
-      scrub.vars.offset = (scrub.vars.offset as number) + delta;
+    // Move to a specific offset (use this instead of mutating scrub.vars directly)
+    const goTo = (offset: number) => {
+      targetOffset = offset;
+      scrub.vars.offset = targetOffset;
       scrub.invalidate().restart();
     };
 
-    // Snap to nearest card when interaction ends
-    const snapToNearest = () => {
-      scrub.vars.offset = snapTime(scrub.vars.offset as number);
-      scrub.invalidate().restart();
-    };
-
-    // ── Autoplay via GSAP ticker (doesn't touch scroll) ──
+    // ── Autoplay via GSAP ticker ──
     let paused = false;
     const onTick = () => {
-      if (!paused) nudge(AUTOPLAY_SPEED);
+      if (!paused) {
+        // deltaRatio() normalises speed across different frame rates
+        targetOffset += AUTOPLAY_SPEED * gsap.ticker.deltaRatio();
+        scrub.vars.offset = targetOffset;
+        scrub.invalidate().restart();
+      }
     };
     gsap.ticker.add(onTick);
 
     // ── Prev / Next buttons ──
     const nextBtn = gallery.querySelector<HTMLButtonElement>('.btn-next');
     const prevBtn = gallery.querySelector<HTMLButtonElement>('.btn-prev');
+
     const onNext = () => {
       paused = true;
-      nudge(SPACING);
-      snapToNearest();
-      setTimeout(() => (paused = false), 600);
+      goTo(snapTime(targetOffset + SPACING));
+      setTimeout(() => (paused = false), 700);
     };
     const onPrev = () => {
       paused = true;
-      nudge(-SPACING);
-      snapToNearest();
-      setTimeout(() => (paused = false), 600);
+      goTo(snapTime(targetOffset - SPACING));
+      setTimeout(() => (paused = false), 700);
     };
     nextBtn?.addEventListener('click', onNext);
     prevBtn?.addEventListener('click', onPrev);
@@ -211,11 +214,12 @@ export function ProjectsSection() {
         paused = true;
       },
       onDrag(this: Draggable) {
-        nudge((this.startX - this.x) * 0.0008);
+        const delta = (this.startX - this.x) * 0.001;
+        goTo(targetOffset + delta);
       },
       onDragEnd() {
-        snapToNearest();
-        setTimeout(() => (paused = false), 600);
+        goTo(snapTime(targetOffset));
+        setTimeout(() => (paused = false), 700);
       },
     });
 
