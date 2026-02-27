@@ -1,9 +1,9 @@
+import { motion } from 'framer-motion';
 import { Brain, GitBranch, Wand2, Rocket } from 'lucide-react';
 import { SectionHeader } from '@/components/ui/SectionHeader';
+import { aiWorkflowItems } from '@/data';
 
-// Map icon names to components — js-index-maps
-// Uncomment below + aiWorkflowItems import when re-enabling the grid
-const _ICONS: Record<
+const ICONS: Record<
   string,
   React.ComponentType<{ size?: number; className?: string }>
 > = {
@@ -12,7 +12,6 @@ const _ICONS: Record<
   Wand2,
   Rocket,
 };
-void _ICONS;
 
 export function AIWorkflowSection() {
   return (
@@ -32,7 +31,7 @@ export function AIWorkflowSection() {
           subtitle="I integrate AI tools into every layer of my workflow — not as a crutch, but as a multiplier for quality and speed."
         />
 
-        {/* <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {aiWorkflowItems.map((item, i) => {
             const Icon = ICONS[item.icon] ?? Brain;
             return (
@@ -59,7 +58,7 @@ export function AIWorkflowSection() {
               </motion.div>
             );
           })}
-        </div> */}
+        </div>
       </div>
     </section>
   );
