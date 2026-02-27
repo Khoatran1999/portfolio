@@ -1,11 +1,44 @@
 import { Github, Linkedin, Mail, Heart } from 'lucide-react';
-import { personalInfo } from '@/data';
+import { personalInfo, skills } from '@/data';
+
+/* ── category colour map (same as SkillsSection) ─────────────────────────── */
+const categoryPill: Record<string, string> = {
+  Core: 'bg-blue-100 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300',
+  Styling:
+    'bg-purple-100 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300',
+  Ecosystem: 'bg-teal-100 dark:bg-teal-950/50 text-teal-700 dark:text-teal-300',
+  Platform:
+    'bg-orange-100 dark:bg-orange-950/50 text-orange-700 dark:text-orange-300',
+  Tooling:
+    'bg-green-100 dark:bg-green-950/50 text-green-700 dark:text-green-300',
+  'AI Workflow':
+    'bg-rose-100 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300',
+};
+
+const fallbackPill = categoryPill['Core'];
 
 export function Footer() {
   const year = new Date().getFullYear();
 
+  /* duplicate the list so the strip is seamless */
+  const loopSkills = [...skills, ...skills];
+
   return (
     <footer className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-gray-950">
+      {/* ── Skills marquee ────────────────────────────────────────────── */}
+      <div className="overflow-hidden py-6 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+        <div className="flex w-max gap-3 animate-marquee hover:[animation-play-state:paused]">
+          {loopSkills.map((skill, i) => (
+            <span
+              key={`${skill.name}-${i}`}
+              className={`shrink-0 px-4 py-2 rounded-xl text-sm font-medium select-none whitespace-nowrap ${categoryPill[skill.category] ?? fallbackPill}`}
+            >
+              {skill.name}
+            </span>
+          ))}
+        </div>
+      </div>
+
       <div className="container-max px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-center md:text-left">

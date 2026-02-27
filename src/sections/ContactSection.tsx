@@ -30,7 +30,7 @@ const CONTACTS = [
   {
     icon: Github,
     label: 'GitHub',
-    value: 'github.com/trandangkhoa',
+    value: 'github.com/khoatran1999',
     href: personalInfo.github,
     external: true,
   },

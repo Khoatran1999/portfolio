@@ -8,15 +8,6 @@ import { personalInfo } from '@/data';
 
 gsap.registerPlugin(SplitText);
 
-const TECH_STACK = [
-  'React 19',
-  'TypeScript',
-  'Tailwind CSS',
-  'Vite',
-  'BigCommerce',
-  'Framer Motion',
-];
-
 export function HeroSection() {
   const nameRef = useRef<HTMLSpanElement>(null);
   const techRowRef = useRef<HTMLDivElement>(null);
@@ -209,7 +200,7 @@ export function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="flex items-center justify-center gap-4 mb-16"
+          className="flex items-center justify-center gap-4"
         >
           <a
             href={personalInfo.github}
@@ -230,25 +221,6 @@ export function HeroSection() {
             <Linkedin size={16} />
             LinkedIn
           </a>
-        </motion.div>
-
-        {/* Tech stack preview */}
-        <motion.div
-          ref={techRowRef}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="flex flex-wrap items-center justify-center gap-3"
-        >
-          {TECH_STACK.map((tech) => (
-            <span
-              key={tech}
-              data-tag
-              className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 text-sm font-medium border border-slate-200 dark:border-slate-700/60 cursor-default"
-            >
-              {tech}
-            </span>
-          ))}
         </motion.div>
       </div>
 

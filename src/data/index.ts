@@ -14,13 +14,13 @@ export const personalInfo = {
   bio: "I'm a Frontend Developer with 3+ years of experience crafting high-performance web applications. I specialize in React.js architecture, BigCommerce e-commerce platforms, and premium UI engineering. I'm passionate about clean code, scalable architecture, and delivering exceptional user experiences that convert.",
   location: 'Ho Chi Minh City, Vietnam',
   email: 'khoatran.itdev@gmail.com',
-  github: 'https://github.com/trandangkhoa',
+  github: 'https://github.com/khoatran1999',
   linkedin: 'https://www.linkedin.com/in/khoatranitdev/',
   phone: '+84 366962361',
 };
 
 export const socialLinks: SocialLink[] = [
-  { label: 'GitHub', href: 'https://github.com/trandangkhoa', icon: 'Github' },
+  { label: 'GitHub', href: 'https://github.com/khoatran1999', icon: 'Github' },
   {
     label: 'LinkedIn',
     href: 'https://www.linkedin.com/in/khoatranitdev/',
