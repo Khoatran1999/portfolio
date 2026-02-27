@@ -9,10 +9,6 @@ export function Footer() {
       <div className="container-max px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-center md:text-left">
-            <p className="font-display font-bold text-lg text-slate-900 dark:text-white">
-              <span className="text-blue-600">K</span>hoa
-              <span className="text-blue-600">.</span>dev
-            </p>
             <p className="text-sm text-slate-500 dark:text-slate-500 mt-1">
               Frontend Developer · Ho Chi Minh City
             </p>

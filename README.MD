@@ -26,7 +26,7 @@ Core strengths:
 - High-performance React.js applications
 - Clean frontend architecture
 - Premium UI engineering
-- BigCommerce eCommerce platforms (70+ projects)
+- BigCommerce eCommerce platforms (100+ projects)
 - REST & GraphQL API integration
 - CI/CD pipelines
 - AI-assisted development (Claude AI, GitHub Copilot)

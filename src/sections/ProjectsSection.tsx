@@ -1,24 +1,21 @@
-import { motion } from "framer-motion";
-import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  Github,
+  ArrowUpRight,
+} from "lucide-react";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Badge } from "@/components/ui/Badge";
 import { projects } from "@/data";
 
-function ProjectCard({
-  project,
-  index,
-}: {
-  project: (typeof projects)[number];
-  index: number;
-}) {
+function ProjectCard({ project }: { project: (typeof projects)[number] }) {
   const isFeatured = project.type === "featured";
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
+    <div
       className={`card card-hover group flex flex-col ${
         isFeatured
           ? "border-blue-200/80 dark:border-blue-800/60 ring-1 ring-blue-500/10"
@@ -91,13 +88,32 @@ function ProjectCard({
           </Badge>
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 export function ProjectsSection() {
-  const featured = projects.filter((p) => p.type === "featured");
-  const regular = projects.filter((p) => p.type === "regular");
+  const [index, setIndex] = useState(0);
+  const [dir, setDir] = useState(1);
+  const pauseRef = useRef(false);
+
+  const goTo = (next: number, d: number) => {
+    setDir(d);
+    setIndex(next);
+  };
+
+  const prev = () => goTo((index - 1 + projects.length) % projects.length, -1);
+  const next = () => goTo((index + 1) % projects.length, 1);
+
+  // Autoplay
+  useEffect(() => {
+    const id = setInterval(() => {
+      if (pauseRef.current) return;
+      setDir(1);
+      setIndex((p) => (p + 1) % projects.length);
+    }, 3500);
+    return () => clearInterval(id);
+  }, []);
 
   return (
     <section id="projects" className="section-padding">
@@ -108,20 +124,62 @@ export function ProjectsSection() {
           subtitle="Real-world solutions spanning e-commerce, tooling, and AI integrations."
         />
 
-        {/* Featured */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-5">
-          {featured.map((project, i) => (
-            <ProjectCard key={project.title} project={project} index={i} />
-          ))}
+        {/* Carousel */}
+        <div
+          className="relative"
+          onMouseEnter={() => (pauseRef.current = true)}
+          onMouseLeave={() => (pauseRef.current = false)}
+        >
+          <div className="overflow-hidden">
+            <AnimatePresence mode="wait" custom={dir}>
+              <motion.div
+                key={index}
+                custom={dir}
+                variants={{
+                  enter: (d: number) => ({ x: d * 80, opacity: 0 }),
+                  center: { x: 0, opacity: 1 },
+                  exit: (d: number) => ({ x: d * -80, opacity: 0 }),
+                }}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.45 }}
+                className="max-w-xl mx-auto"
+              >
+                <ProjectCard project={projects[index]} />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Prev */}
+          <button
+            onClick={prev}
+            aria-label="Previous project"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 p-2 rounded-full bg-white dark:bg-slate-800 shadow border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+          >
+            <ChevronLeft size={18} />
+          </button>
+
+          {/* Next */}
+          <button
+            onClick={next}
+            aria-label="Next project"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 p-2 rounded-full bg-white dark:bg-slate-800 shadow border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+          >
+            <ChevronRight size={18} />
+          </button>
         </div>
 
-        {/* Regular */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {regular.map((project, i) => (
-            <ProjectCard
-              key={project.title}
-              project={project}
-              index={featured.length + i}
+        {/* Dots */}
+        <div className="flex gap-2 justify-center mt-6">
+          {projects.map((_, i) => (
+            <button
+              key={i}
+              aria-label={`Project ${i + 1}`}
+              onClick={() => goTo(i, i > index ? 1 : -1)}
+              className={`w-2 h-2 rounded-full transition-colors ${
+                i === index ? "bg-blue-600" : "bg-slate-300 dark:bg-slate-700"
+              }`}
             />
           ))}
         </div>

@@ -1,101 +1,88 @@
-import { useState, memo } from "react";
 import { motion } from "framer-motion";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { skills, skillCategories } from "@/data";
+import { skills } from "@/data";
 
-// Memoized skill bar — rerender-memo
-const SkillBar = memo(function SkillBar({
-  name,
-  level,
-  delay,
-}: {
-  name: string;
-  level: number;
-  delay: number;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: -15 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4, delay }}
-    >
-      <div className="flex justify-between items-center mb-1.5">
-        <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-          {name}
-        </span>
-        <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">
-          {level}%
-        </span>
-      </div>
-      <div className="h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-        <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: `${level}%` }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: delay + 0.1, ease: "easeOut" }}
-          className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"
-        />
-      </div>
-    </motion.div>
-  );
-});
+// Per-category colour tokens: base bg/text (Tailwind) + hover colours (CSS values for whileHover)
+const categoryTheme: Record<
+  string,
+  { pill: string; hoverBg: string; hoverText: string; hoverShadow: string }
+> = {
+  Core: {
+    pill: "bg-blue-100 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300",
+    hoverBg: "#2563eb",
+    hoverText: "#fff",
+    hoverShadow: "0 4px 16px rgba(37,99,235,0.4)",
+  },
+  Styling: {
+    pill: "bg-purple-100 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300",
+    hoverBg: "#9333ea",
+    hoverText: "#fff",
+    hoverShadow: "0 4px 16px rgba(147,51,234,0.4)",
+  },
+  Ecosystem: {
+    pill: "bg-teal-100 dark:bg-teal-950/50 text-teal-700 dark:text-teal-300",
+    hoverBg: "#0d9488",
+    hoverText: "#fff",
+    hoverShadow: "0 4px 16px rgba(13,148,136,0.4)",
+  },
+  Platform: {
+    pill: "bg-orange-100 dark:bg-orange-950/50 text-orange-700 dark:text-orange-300",
+    hoverBg: "#ea580c",
+    hoverText: "#fff",
+    hoverShadow: "0 4px 16px rgba(234,88,12,0.4)",
+  },
+  Tooling: {
+    pill: "bg-green-100 dark:bg-green-950/50 text-green-700 dark:text-green-300",
+    hoverBg: "#16a34a",
+    hoverText: "#fff",
+    hoverShadow: "0 4px 16px rgba(22,163,74,0.4)",
+  },
+  "AI Workflow": {
+    pill: "bg-rose-100 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300",
+    hoverBg: "#e11d48",
+    hoverText: "#fff",
+    hoverShadow: "0 4px 16px rgba(225,29,72,0.4)",
+  },
+};
 
-// Build lookup map for O(1) category filtering — js-set-map-lookups, js-index-maps
-const skillsByCategory = new Map<string, typeof skills>();
-for (const skill of skills) {
-  const arr = skillsByCategory.get(skill.category) ?? [];
-  arr.push(skill);
-  skillsByCategory.set(skill.category, arr);
-}
+const fallbackTheme = categoryTheme["Core"];
 
 export function SkillsSection() {
-  const [activeCategory, setActiveCategory] = useState(skillCategories[0]);
-  const filtered = skillsByCategory.get(activeCategory) ?? [];
-
   return (
     <section id="skills" className="section-padding">
       <div className="container-max">
         <SectionHeader
           eyebrow="Skills & Technologies"
           title="My Technical Stack"
-          subtitle="Battle-tested across 70+ production projects — from React SPAs to BigCommerce storefronts."
+          subtitle="Battle-tested across 100+ production projects — from React SPAs to BigCommerce storefronts."
         />
 
-        {/* Category tabs */}
-        <div className="flex flex-wrap gap-2 justify-center mb-10">
-          {skillCategories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                activeCategory === cat
-                  ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
-                  : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+        <div className="mx-auto max-w-[1000px]">
+          <div className="flex flex-wrap gap-3 justify-center">
+            {skills.map((skill, i) => {
+              const theme = categoryTheme[skill.category] ?? fallbackTheme;
+              return (
+                <motion.span
+                  key={skill.name}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: i * 0.025 }}
+                  whileHover={{
+                    scale: 1.1,
+                    backgroundColor: theme.hoverBg,
+                    color: theme.hoverText,
+                    boxShadow: theme.hoverShadow,
+                    transition: { duration: 0.15 },
+                  }}
+                  className={`px-4 py-2 rounded-xl text-sm font-medium cursor-default select-none ${theme.pill}`}
+                >
+                  {skill.name}
+                </motion.span>
+              );
+            })}
+          </div>
         </div>
-
-        {/* Skills grid */}
-        <motion.div
-          key={activeCategory}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-5 max-w-4xl mx-auto"
-        >
-          {filtered.map((skill, i) => (
-            <SkillBar
-              key={skill.name}
-              name={skill.name}
-              level={skill.level}
-              delay={i * 0.05}
-            />
-          ))}
-        </motion.div>
       </div>
     </section>
   );

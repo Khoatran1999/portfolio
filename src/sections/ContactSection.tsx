@@ -10,6 +10,7 @@ import {
   CheckCircle,
   AlertCircle,
   Loader2,
+  Phone,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -99,6 +100,17 @@ export function ContactSection() {
                   label: "Email",
                   value: personalInfo.email,
                   href: `mailto:${personalInfo.email}`,
+                },
+                {
+                  icon: (
+                    <Phone
+                      size={18}
+                      className="text-blue-600 dark:text-blue-400"
+                    />
+                  ),
+                  label: "Phone",
+                  value: personalInfo.phone,
+                  href: `tel:${personalInfo.phone}`,
                 },
                 {
                   icon: (

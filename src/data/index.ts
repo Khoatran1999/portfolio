@@ -16,6 +16,7 @@ export const personalInfo = {
   email: "khoatran.itdev@gmail.com",
   github: "https://github.com/trandangkhoa",
   linkedin: "https://www.linkedin.com/in/khoatranitdev/",
+  phone: "+84 366962361",
 };
 
 export const socialLinks: SocialLink[] = [
@@ -26,6 +27,7 @@ export const socialLinks: SocialLink[] = [
     icon: "Linkedin",
   },
   { label: "Email", href: "mailto:khoatran.itdev@gmail.com", icon: "Mail" },
+  { label: "Phone", href: "tel:+84366962361", icon: "Phone" },
 ];
 
 export const skills: Skill[] = [
@@ -76,47 +78,54 @@ export const skillCategories = [
 
 export const experiences: Experience[] = [
   {
-    company: "Freelance / Contract",
-    role: "Senior Frontend Developer",
-    period: "2023 – Present",
-    current: true,
+    company: "Allcommerce",
+    role: "Frontend Developer",
+    period: "11/2022 – 06/2025",
     description: [
-      "Led frontend development for 20+ BigCommerce e-commerce stores, increasing average conversion rate by 18%",
-      "Built reusable React component libraries used across 5+ client projects, reducing development time by 40%",
-      "Integrated AI-assisted workflows (Claude AI + GitHub Copilot) to accelerate feature delivery by 35%",
-      "Implemented CI/CD pipelines with GitHub Actions for automated testing and Vercel deployments",
+      "Built high-performance, scalable React.js admin dashboards and internal systems using Redux, Vite, Tailwind CSS, and Ant Design.",
+      "Integrated REST & GraphQL APIs, implemented Webhooks, and handled real-time data flows.",
+      "Participated in building multiple commercial-grade BigCommerce templates from scratch to production, ensuring pixel-perfect UI, performance, and cross-device compatibility.",
+      "Delivered, maintained, debugged, and optimized 100+ production BigCommerce projects, including, writing technical documentation and usage guidelines.",
+      "Applied AI-assisted development (Claude AI, GitHub Copilot) to accelerate coding, refactoring, and debugging.",
+      "Built basic CI/CD pipelines and optimized frontend performance.",
     ],
     tech: [
       "React",
-      "TypeScript",
-      "BigCommerce",
-      "Stencil.js",
-      "GraphQL",
+      "Redux Toolkit",
+      "JavaScript",
+      "HTML/SCSS",
+      "REST API",
       "Tailwind CSS",
+      "Ant Design",
+      "BigCommerce",
+      "Handlebars",
+      "Stencil",
+      "JQuery",
+      "GraphQL",
+      "Git",
+      "Figma",
+      "Claude AI",
     ],
   },
   {
-    company: "Digital Agency",
+    company: "Viet Japan Partner",
     role: "Frontend Developer",
-    period: "2022 – 2023",
+    period: "03/2022 – 10/2022",
     description: [
-      "Developed 50+ BigCommerce storefronts from Figma designs to production using Stencil.js and custom themes",
-      "Built RESTful API integrations with ERPs, payment gateways, and third-party logistics providers",
-      "Optimized page load times by 45% using lazy loading, code splitting, and image optimization strategies",
-      "Collaborated with UX/UI designers to deliver pixel-perfect, responsive interfaces",
+      "Developed pixel-perfect, responsive user interfaces from Figma designs using HTML, SCSS, JavaScript, and React.js.",
+      "Collaborated with backend developers to integrate REST APIs and ensure seamless data flow.",
     ],
-    tech: ["React", "JavaScript", "BigCommerce", "SCSS", "REST API", "jQuery"],
+    tech: ["React", "JavaScript", "HTML", "SCSS", "REST API"],
   },
   {
-    company: "Startup",
-    role: "Junior Frontend Developer",
+    company: "FreeLancer",
+    role: "Designer",
     period: "2021 – 2022",
     description: [
-      "Built and maintained customer-facing web application used by 10,000+ monthly active users",
-      "Migrated legacy jQuery codebase to modern React architecture, reducing bundle size by 30%",
-      "Implemented responsive designs and accessibility improvements achieving WCAG 2.1 AA compliance",
+      "Created name cards, banners, labels, catalogs, packaging and product visuals.",
+      "Collaborated with clients to understand design requirements and deliver high-quality visual assets that met their needs.",
     ],
-    tech: ["React", "JavaScript", "CSS3", "HTML5", "Git"],
+    tech: ["Photoshop", "Illustrator", "Figma"],
   },
 ];
 
@@ -124,7 +133,7 @@ export const projects: Project[] = [
   {
     title: "BigCommerce Multi-Store Platform",
     description:
-      "Enterprise-grade multi-store BigCommerce platform for a US fashion retailer with 70+ product categories. Custom Stencil theme, GraphQL API integration, and headless checkout flow.",
+      "Enterprise-grade multi-store BigCommerce platform for a US fashion retailer with 100+ product categories. Custom Stencil theme, GraphQL API integration, and headless checkout flow.",
     tech: [
       "BigCommerce",
       "Stencil.js",
@@ -184,7 +193,7 @@ export const projects: Project[] = [
 export const achievements: Achievement[] = [
   {
     icon: "ShoppingCart",
-    value: "70+",
+    value: "100+",
     label: "BigCommerce Projects",
     description: "E-commerce storefronts delivered",
   },

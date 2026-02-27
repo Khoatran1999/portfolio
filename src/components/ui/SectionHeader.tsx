@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useGsapSplitReveal } from "@/hooks/useGsapSplitReveal";
 
 interface SectionHeaderProps {
   eyebrow?: string;
@@ -13,6 +14,9 @@ export function SectionHeader({
   subtitle,
   centered = true,
 }: SectionHeaderProps) {
+  // Pick a random SplitText variant per section heading
+  const titleRef = useGsapSplitReveal<HTMLHeadingElement>();
+
   return (
     <div className={`mb-16 ${centered ? "text-center" : ""}`}>
       {eyebrow && (
@@ -26,15 +30,12 @@ export function SectionHeader({
           {eyebrow}
         </motion.span>
       )}
-      <motion.h2
-        initial={{ opacity: 0, y: 15 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.1 }}
+      <h2
+        ref={titleRef}
         className="font-display text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white tracking-tight mb-4"
       >
         {title}
-      </motion.h2>
+      </h2>
       {subtitle && (
         <motion.p
           initial={{ opacity: 0, y: 15 }}

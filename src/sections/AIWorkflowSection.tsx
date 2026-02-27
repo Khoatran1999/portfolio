@@ -32,7 +32,7 @@ export function AIWorkflowSection() {
           subtitle="I integrate AI tools into every layer of my workflow — not as a crutch, but as a multiplier for quality and speed."
         />
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {aiWorkflowItems.map((item, i) => {
             const Icon = ICONS[item.icon] ?? Brain;
             return (
@@ -59,44 +59,7 @@ export function AIWorkflowSection() {
               </motion.div>
             );
           })}
-        </div>
-
-        {/* AI tools used */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 p-8 rounded-2xl bg-gradient-to-r from-blue-600 to-violet-600 text-white"
-        >
-          <div className="flex flex-col md:flex-row items-center gap-8 text-center md:text-left">
-            <div className="flex-1">
-              <h3 className="font-display font-bold text-2xl mb-2">
-                35% Faster Delivery
-              </h3>
-              <p className="text-blue-100 text-sm leading-relaxed max-w-lg">
-                By integrating Claude AI and GitHub Copilot across my full
-                development lifecycle — from architecture planning to code
-                review — I consistently deliver higher quality features in less
-                time without compromising on standards.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row md:flex-col gap-4 text-center flex-shrink-0">
-              {[
-                { tool: "Claude AI", use: "Architecture & Refactoring" },
-                { tool: "GitHub Copilot", use: "Inline Code Generation" },
-              ].map((item) => (
-                <div
-                  key={item.tool}
-                  className="px-5 py-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20"
-                >
-                  <p className="font-bold text-white">{item.tool}</p>
-                  <p className="text-xs text-blue-200 mt-0.5">{item.use}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
+        </div> */}
       </div>
     </section>
   );
