@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Draggable } from 'gsap/Draggable';
 import {
   ExternalLink,
@@ -11,7 +10,7 @@ import {
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { projects } from '@/data';
 
-gsap.registerPlugin(ScrollTrigger, Draggable);
+gsap.registerPlugin(Draggable);
 
 // ─── seamless loop builder (ported from task.md) ──────────────────────────────
 function buildSeamlessLoop(
@@ -110,7 +109,8 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
 }
 
 // ─── ProjectsSection ──────────────────────────────────────────────────────────
-const SPACING = 0.15; // stagger between each card's animation start
+const SPACING = 0.15;
+const AUTOPLAY_SPEED = 0.012; // offset units per tick (~16ms)
 
 export function ProjectsSection() {
   const galleryRef = useRef<HTMLDivElement>(null);
@@ -124,8 +124,6 @@ export function ProjectsSection() {
     if (!gallery || !cardsList || !dragProxy) return;
 
     const cards = gsap.utils.toArray<Element>(cardsList.querySelectorAll('li'));
-
-    // Initial state — all cards off-screen right, invisible
     gsap.set(cards, { xPercent: 400, opacity: 0, scale: 0 });
 
     const animateFunc = (el: Element): gsap.core.Timeline => {
@@ -154,106 +152,89 @@ export function ProjectsSection() {
 
     const seamlessLoop = buildSeamlessLoop(cards, SPACING, animateFunc);
     const snapTime = gsap.utils.snap(SPACING);
+    const wrapTime = gsap.utils.wrap(0, seamlessLoop.duration());
     const playhead = { offset: 0 };
 
+    // Smooth scrub tween — reused for every nudge
     const scrub = gsap.to(playhead, {
       offset: 0,
       onUpdate() {
-        seamlessLoop.time(
-          gsap.utils.wrap(0, seamlessLoop.duration())(playhead.offset)
-        );
+        seamlessLoop.time(wrapTime(playhead.offset));
       },
       duration: 0.5,
       ease: 'power3',
       paused: true,
     });
 
-    let iteration = 0;
-
-    const trigger = ScrollTrigger.create({
-      start: 0,
-      onUpdate(self) {
-        const scroll = self.scroll();
-        if (scroll > self.end - 1) {
-          wrap(1, 2);
-        } else if (scroll < 1 && self.direction < 0) {
-          wrap(-1, self.end - 2);
-        } else {
-          scrub.vars.offset =
-            (iteration + self.progress) * seamlessLoop.duration();
-          scrub.invalidate().restart();
-        }
-      },
-      end: '+=3000',
-      pin: gallery,
-    });
-
-    const progressToScroll = (progress: number) =>
-      gsap.utils.clamp(
-        1,
-        trigger.end - 1,
-        gsap.utils.wrap(0, 1, progress) * trigger.end
-      );
-
-    const wrap = (iterationDelta: number, scrollTo: number) => {
-      iteration += iterationDelta;
-      trigger.scroll(scrollTo);
-      trigger.update();
+    // Nudge playhead by delta and let scrub catch up smoothly
+    const nudge = (delta: number) => {
+      scrub.vars.offset = (scrub.vars.offset as number) + delta;
+      scrub.invalidate().restart();
     };
 
-    const scrollToOffset = (offset: number) => {
-      const snappedTime = snapTime(offset);
-      const progress =
-        (snappedTime - seamlessLoop.duration() * iteration) /
-        seamlessLoop.duration();
-      const scroll = progressToScroll(progress);
-      if (progress >= 1 || progress < 0) {
-        return wrap(Math.floor(progress), scroll);
-      }
-      trigger.scroll(scroll);
+    // Snap to nearest card when interaction ends
+    const snapToNearest = () => {
+      scrub.vars.offset = snapTime(scrub.vars.offset as number);
+      scrub.invalidate().restart();
     };
 
-    const onScrollEnd = () => scrollToOffset(scrub.vars.offset as number);
-    ScrollTrigger.addEventListener('scrollEnd', onScrollEnd);
+    // ── Autoplay via GSAP ticker (doesn't touch scroll) ──
+    let paused = false;
+    const onTick = () => {
+      if (!paused) nudge(AUTOPLAY_SPEED);
+    };
+    gsap.ticker.add(onTick);
 
-    // Prev / Next buttons
+    // ── Prev / Next buttons ──
     const nextBtn = gallery.querySelector<HTMLButtonElement>('.btn-next');
     const prevBtn = gallery.querySelector<HTMLButtonElement>('.btn-prev');
-    const onNext = () =>
-      scrollToOffset((scrub.vars.offset as number) + SPACING);
-    const onPrev = () =>
-      scrollToOffset((scrub.vars.offset as number) - SPACING);
+    const onNext = () => {
+      paused = true;
+      nudge(SPACING);
+      snapToNearest();
+      setTimeout(() => (paused = false), 600);
+    };
+    const onPrev = () => {
+      paused = true;
+      nudge(-SPACING);
+      snapToNearest();
+      setTimeout(() => (paused = false), 600);
+    };
     nextBtn?.addEventListener('click', onNext);
     prevBtn?.addEventListener('click', onPrev);
 
-    // Draggable — mouse & touch
+    // ── Draggable ──
     const draggable = Draggable.create(dragProxy, {
       type: 'x',
       trigger: cardsList,
-      onPress(this: Draggable) {
-        (this as Draggable & { startOffset: number }).startOffset = scrub.vars
-          .offset as number;
+      onPress() {
+        paused = true;
       },
       onDrag(this: Draggable) {
-        const self = this as Draggable & { startOffset: number };
-        scrub.vars.offset = self.startOffset + (self.startX - self.x) * 0.001;
-        scrub.invalidate().restart();
+        nudge((this.startX - this.x) * 0.0008);
       },
       onDragEnd() {
-        scrollToOffset(scrub.vars.offset as number);
+        snapToNearest();
+        setTimeout(() => (paused = false), 600);
       },
     });
 
+    // Pause autoplay on hover
+    const onEnter = () => (paused = true);
+    const onLeave = () => (paused = false);
+    gallery.addEventListener('mouseenter', onEnter);
+    gallery.addEventListener('mouseleave', onLeave);
+
     return () => {
+      gsap.ticker.remove(onTick);
       scrub.kill();
-      trigger.kill();
       draggable[0]?.kill();
       seamlessLoop.kill();
       nextBtn?.removeEventListener('click', onNext);
       prevBtn?.removeEventListener('click', onPrev);
-      ScrollTrigger.removeEventListener('scrollEnd', onScrollEnd);
+      gallery.removeEventListener('mouseenter', onEnter);
+      gallery.removeEventListener('mouseleave', onLeave);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -265,13 +246,12 @@ export function ProjectsSection() {
           subtitle="Real-world solutions spanning e-commerce, tooling, and AI integrations."
         />
 
-        {/* Gallery — pinned by ScrollTrigger */}
         <div
           ref={galleryRef}
-          className="relative flex flex-col items-center overflow-hidden"
+          className="relative overflow-hidden"
           style={{ height: 400 }}
         >
-          {/* Cards — all stacked at center, moved via xPercent */}
+          {/* Cards */}
           <ul
             ref={cardsRef}
             className="relative w-full h-full list-none p-0 m-0"
@@ -293,7 +273,7 @@ export function ProjectsSection() {
             className="absolute inset-0 z-0 pointer-events-none"
           />
 
-          {/* Prev / Next controls */}
+          {/* Controls */}
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex items-center gap-4 z-20">
             <button
               className="btn-prev p-2 rounded-full bg-white dark:bg-slate-800 shadow-md border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
