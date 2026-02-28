@@ -145,7 +145,7 @@ export const projects: Project[] = [
     category: 'E-commerce',
     metrics: '18% conversion uplift · $2M+ annual GMV',
     url: 'https://dinosaur-man-demo.mybigcommerce.com/',
-    image: 'src/image/project1.png',
+    image: new URL('../image/project1.png', import.meta.url).href,
   },
   {
     title: 'BigCommerce Baby Fashion Storefront',
@@ -156,7 +156,7 @@ export const projects: Project[] = [
     category: 'Open Source',
     metrics: '40+ components · Zero-dependency core',
     url: 'https://dinosaur-kid-demo.mybigcommerce.com/',
-    image: 'src/image/project2.png',
+    image: new URL('../image/project2.png', import.meta.url).href,
   },
   {
     title: 'Mooncat Pet Store',
@@ -167,7 +167,7 @@ export const projects: Project[] = [
     category: 'AI / Search',
     metrics: '3x faster discovery · 22% higher AOV',
     url: 'https://mooncat-petstore-demo.mybigcommerce.com/',
-    image: 'src/image/project3.png',
+    image: new URL('../image/project3.png', import.meta.url).href,
   },
   {
     title: 'BigCommerce Woman Theme',
@@ -177,7 +177,7 @@ export const projects: Project[] = [
     type: 'regular',
     category: 'Dashboard',
     url: 'https://dinosaur-woman-demo.mybigcommerce.com/',
-    image: 'src/image/project4.png',
+    image: new URL('../image/project4.png', import.meta.url).href,
   },
   {
     title: 'Kitchenary Cooking Store',
@@ -187,7 +187,7 @@ export const projects: Project[] = [
     type: 'regular',
     category: 'DevOps',
     url: 'https://kitchenary-cooking-demo.mybigcommerce.com/',
-    image: 'src/image/project5.png',
+    image: new URL('../image/project5.png', import.meta.url).href,
   },
 ];
 
