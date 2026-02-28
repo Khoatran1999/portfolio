@@ -180,8 +180,8 @@ export function ProjectsSection() {
       <div className="container-max">
         <SectionHeader
           eyebrow="Portfolio"
-          title="Selected Projects"
-          subtitle="Real-world solutions spanning e-commerce, tooling, and AI integrations."
+          title="Delivered Projects"
+          subtitle="High-quality commercial projects meeting BigCommerce marketplace standards."
         />
 
         {/* Carousel */}

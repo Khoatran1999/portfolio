@@ -131,7 +131,7 @@ export const experiences: Experience[] = [
 
 export const projects: Project[] = [
   {
-    title: 'BigCommerce Multi-Store Platform',
+    title: 'BigCommerce Dinosaur Man',
     description:
       'Enterprise-grade multi-store BigCommerce platform for a US fashion retailer with 100+ product categories. Custom Stencil theme, GraphQL API integration, and headless checkout flow.',
     tech: [
@@ -148,7 +148,7 @@ export const projects: Project[] = [
     image: 'src/image/project1.png',
   },
   {
-    title: 'React Design System',
+    title: 'BigCommerce Baby Fashion Storefront',
     description:
       'Production-ready component library with 40+ components built with React, TypeScript, and Storybook. Supports light/dark mode, full accessibility, and tree-shaking.',
     tech: ['React', 'TypeScript', 'Storybook', 'Tailwind CSS', 'Framer Motion'],
@@ -159,7 +159,7 @@ export const projects: Project[] = [
     image: 'src/image/project2.png',
   },
   {
-    title: 'AI-Powered Product Search',
+    title: 'Mooncat Pet Store',
     description:
       'Semantic product search engine for e-commerce using vector embeddings. Integrated with BigCommerce catalog and custom React search UI with real-time filtering.',
     tech: ['React', 'TypeScript', 'OpenAI API', 'BigCommerce', 'REST API'],
@@ -170,7 +170,7 @@ export const projects: Project[] = [
     image: 'src/image/project3.png',
   },
   {
-    title: 'Headless Commerce Dashboard',
+    title: 'BigCommerce Woman Theme',
     description:
       'Admin analytics dashboard for BigCommerce merchants with real-time sales tracking, inventory alerts, and custom reporting built with React and Recharts.',
     tech: ['React', 'TypeScript', 'GraphQL', 'Recharts', 'BigCommerce API'],
@@ -180,7 +180,7 @@ export const projects: Project[] = [
     image: 'src/image/project4.png',
   },
   {
-    title: 'CI/CD Deployment Pipeline',
+    title: 'Kitchenary Cooking Store',
     description:
       'Automated GitHub Actions pipeline for multi-environment BigCommerce theme deployments with staging previews and automated Lighthouse performance audits.',
     tech: ['GitHub Actions', 'BigCommerce CLI', 'Node.js', 'Shell'],

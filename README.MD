@@ -1,169 +1,128 @@
-You are a Principal Frontend Engineer + Product Designer + UI Director.
+# 🚀 Tran Dang Khoa — Frontend & eCommerce Engineer
 
-Build a production-ready personal portfolio landing page using the latest React version (React 19) with Vite, TypeScript, Tailwind CSS, and Framer Motion. Do NOT use Next.js.
+<p align="center">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" height="45"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="45"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" height="45"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg" height="45"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg" height="45"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" height="45"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" height="45"/>
+</p>
 
-============================
-PROJECT GOAL
-============================
+<p align="center">
+  <b>Frontend Developer (3+ years)</b> • <b>BigCommerce eCommerce Engineer</b> • <b>React Specialist</b>
+</p>
 
-Create a one-page premium portfolio website to:
+<p align="center">
+  ⚡ High-performance • 🎯 Pixel-perfect UI • 🛒 Commercial eCommerce • 🤖 AI-assisted development
+</p>
 
-- Apply for Frontend Developer / Frontend Engineer roles
-- Showcase high-end UI engineering, strong React architecture, and performance
-- Impress recruiters and tech leads in under 30 seconds
+---
 
-============================
-PERSONAL PROFILE
-============================
+## 🌟 About Me
 
-Name: Tran Dang Khoa  
-Role: Frontend Developer / Frontend Engineer  
-Experience: 3+ years  
+Frontend Developer with **3+ years of real-world experience** building **high-performance, scalable, and production-grade web applications**, specializing in **React.js, eCommerce platforms, and BigCommerce commercial templates**.
+
+I focus on:
+
+- Building **enterprise-grade frontend systems**
+- Delivering **pixel-perfect UI from Figma designs**
+- Creating **commercial-ready BigCommerce themes**
+- Optimizing **performance, maintainability, and scalability**
+- Applying **AI-assisted development** to boost productivity and code quality
+
+---
+
+## 🛒 BigCommerce Commercial Experience
+
+> **100+ production projects delivered**
+
+- Built **multiple BigCommerce templates from scratch → production → commercial sale**
+- Ensured:
+  - Pixel-perfect UI
+  - Cross-device compatibility
+  - Performance optimization
+  - Marketplace standard compliance
+- Maintained and optimized **100+ live BigCommerce stores**
+- Delivered technical documentation & usage guidelines
+
+---
+
+## 🧠 Tech Stack & Tools
+
+### ⚡ Frontend Core
+
+![Frontend](https://skillicons.dev/icons?i=react,js,ts,redux,tailwind,antd,html,css)
+
+### 🔗 APIs & Data
+
+![API](https://skillicons.dev/icons?i=graphql,postman)
+
+> REST API • GraphQL • Webhooks • Real-time Data Flow • Supabase
+
+### 🛠 Tooling & Workflow
+
+![Tools](https://skillicons.dev/icons?i=git,github,vite,figma)
+
+> CI/CD • Git Flow • ESLint • Prettier • Husky • Vite
+
+### 🤖 AI-Assisted Development
+
+![AI](https://skillicons.dev/icons?i=githubcopilot)
+
+> Claude AI • GitHub Copilot • AI Prompt Engineering • Debug Automation
+
+---
+
+## 💼 Work Experience
+
+### 🚀 Frontend Developer — Allcommerce (11/2022 – 06/2025)
+
+- Built **high-performance React admin dashboards & internal systems**
+- Integrated **REST & GraphQL APIs, Webhooks, real-time flows**
+- Developed **commercial BigCommerce templates** from scratch
+- Delivered **100+ production projects**
+- Built **basic CI/CD pipelines**
+- Applied **AI-assisted workflows for refactor & debugging**
+
+---
+
+### 💻 Frontend Developer — Viet Japan Partner (03/2022 – 10/2022)
+
+- Converted **Figma → pixel-perfect UI**
+- Built responsive UI using **HTML, SCSS, JavaScript, React**
+
+---
+
+### 🎨 Graphic Designer (11/2020 – 11/2021)
+
+- Designed banners, catalogs, packaging, product visuals  
+  → Background giúp nâng cao **UI/UX + aesthetic sense**
+
+---
+
+## ✨ Engineering Highlights
+
+- ⚡ High-performance frontend architecture
+- 🎯 Pixel-perfect UI implementation
+- 🛒 Commercial-grade eCommerce solutions
+- 🔄 API integration & real-time systems
+- 📦 Production-ready mindset
+- 🤖 AI-assisted development workflow
+
+---
+
+📬 Contact
+
+Name: Tran Dang Khoa
+
+Email: khoatran.itdev@gmail.com
+
+Phone: 0366962361
+
 Location: Ho Chi Minh City, Vietnam
 
-Core strengths:
+📜 License
 
-- High-performance React.js applications
-- Clean frontend architecture
-- Premium UI engineering
-- BigCommerce eCommerce platforms (100+ projects)
-- REST & GraphQL API integration
-- CI/CD pipelines
-- AI-assisted development (Claude AI, GitHub Copilot)
-
-============================
-DESIGN DIRECTION
-============================
-
-Style:
-
-- Apple-style premium minimalism
-- Stripe / Vercel modern product UI
-- Clean, minimal, elegant, professional
-
-Color:
-
-- Modern blue palette (Stripe / Vercel inspired)
-- Neutral grayscale base + blue accent
-
-Typography:
-
-- Apple-like fonts (Inter / Geist / Plus Jakarta)
-
-Motion:
-
-- Medium animation level
-- Subtle micro-interactions
-- Smooth scroll
-- Elegant transitions
-- Framer Motion animations
-
-Tone:
-
-- Balanced: Designer + Engineer
-
-============================
-TECH STACK
-============================
-
-- React 19
-- Vite
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- Lucide React Icons
-- React Hook Form + Zod
-- Resend API (email sending)
-- Vercel deployment
-
-Performance targets:
-
-- Lighthouse ≥ 95
-- Fast LCP
-- Minimal JS bundle
-- Code splitting
-- Lazy loading
-- Optimized images
-
-============================
-PAGE STRUCTURE
-============================
-
-One-page landing layout:
-
-1. Hero
-2. About
-3. Skills
-4. Experience Timeline
-5. Projects (GitHub + BigCommerce mock case studies)
-6. AI Workflow
-7. Achievements
-8. Contact (email via Resend API)
-9. Footer
-
-============================
-ARCHITECTURE
-============================
-
-Use clean, scalable React architecture:
-
-src/
-├─ main.tsx
-├─ App.tsx
-├─ components/
-│ ├─ ui/
-│ ├─ layout/
-│ └─ common/
-├─ sections/
-├─ data/
-├─ hooks/
-├─ lib/
-└─ styles/
-
-Rules:
-
-- Fully typed with TypeScript
-- Strong separation of concerns
-- Reusable UI components
-- Clean architecture
-- Highly maintainable
-- Professional production-grade code
-
-============================
-FEATURES
-============================
-
-- Dark / Light mode toggle
-- Smooth scrolling
-- Framer Motion animations
-- SEO meta tags
-- Responsive design
-- Resume download button
-- Contact form using Resend API
-- Lazy loading
-- Performance optimizations
-
-============================
-DELIVERABLE
-============================
-
-Generate:
-
-- Full production-ready React + Vite project source code
-- Clean architecture
-- Responsive UI
-- Environment setup
-- Vercel deployment guide
-- README.md
-
-The final result must look like a product built by a senior frontend engineer and product designer.
-
-============================
-OUTPUT FORMAT
-============================
-
-Provide:
-
-- Project structure
-- Full source code
-- Setup instructions
+MIT License © Tran Dang Khoa

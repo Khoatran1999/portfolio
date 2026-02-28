@@ -1,18 +1,19 @@
-import { Github, Linkedin, Mail, Heart } from 'lucide-react';
+import { Github, Linkedin, Mail, Heart, Phone } from 'lucide-react';
 import { personalInfo, skills } from '@/data';
 
 /* ── category colour map (same as SkillsSection) ─────────────────────────── */
 const categoryPill: Record<string, string> = {
-  Core: 'bg-blue-100 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300',
+  Core: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-blue-950/40 hover:text-blue-600 dark:hover:text-blue-400',
   Styling:
-    'bg-purple-100 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300',
-  Ecosystem: 'bg-teal-100 dark:bg-teal-950/50 text-teal-700 dark:text-teal-300',
+    'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-blue-950/40 hover:text-blue-600 dark:hover:text-blue-400',
+  Ecosystem:
+    'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-blue-950/40 hover:text-blue-600 dark:hover:text-blue-400',
   Platform:
-    'bg-orange-100 dark:bg-orange-950/50 text-orange-700 dark:text-orange-300',
+    'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-blue-950/40 hover:text-blue-600 dark:hover:text-blue-400',
   Tooling:
-    'bg-green-100 dark:bg-green-950/50 text-green-700 dark:text-green-300',
+    'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-blue-950/40 hover:text-blue-600 dark:hover:text-blue-400',
   'AI Workflow':
-    'bg-rose-100 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300',
+    'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-blue-950/40 hover:text-blue-600 dark:hover:text-blue-400',
 };
 
 const fallbackPill = categoryPill['Core'];
@@ -69,11 +70,11 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="container-max px-4 sm:px-6 lg:px-8 py-12">
+      <div className="container-max pt-0 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-center md:text-left">
             <p className="text-sm text-slate-500 dark:text-slate-500 mt-1">
-              Frontend Developer · Ho Chi Minh City
+              Tran Dang Khoa · Frontend Developer
             </p>
           </div>
 
@@ -88,11 +89,6 @@ export function Footer() {
                 href: personalInfo.linkedin,
                 icon: <Linkedin size={18} />,
                 label: 'LinkedIn',
-              },
-              {
-                href: `mailto:${personalInfo.email}`,
-                icon: <Mail size={18} />,
-                label: 'Email',
               },
             ].map((item) => (
               <a
