@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, Heart, Phone } from 'lucide-react';
+import { Github, Linkedin, Heart } from 'lucide-react';
 import { personalInfo, skills } from '@/data';
 
 /* ── category colour map (same as SkillsSection) ─────────────────────────── */
